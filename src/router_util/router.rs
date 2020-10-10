@@ -30,9 +30,9 @@ impl ws::Handler for Router {
         println!("---------origin---{}-------------", host);
 
         if path.contains("dispatch") {
-            let auth = get_user_pwd_of_url(host);
+            let auth = get_user_pwd_of_req(req, host);
             match auth {
-                Some((_, pwd)) => if pwd == get_cfg_pwd() {
+                Some(pwd) => if pwd == get_cfg_pwd() {
                     self.inner = Box::new(EchoDispatch { ws: self.sender.clone() });
                     ()
                 },
@@ -147,5 +147,30 @@ fn get_jwt_of_req(req: &ws::Request, path: &str) -> Option<String> {
                 _ => None,
             },
         _ => None,
+    }
+}
+
+#[allow(unused_imports)]
+#[allow(dead_code)]
+fn get_user_pwd_of_req(req: &ws::Request, path: &str) -> Option<String> {
+    println!("------------get_jwt_of_req  enter-------------");
+    let jwt = match req.header("Jwt") {
+        Some(buf) =>
+            match std::str::from_utf8(buf) {
+                Ok(v) => v,
+                _ => "",
+            },
+        _ => "password",
+    };
+
+    if jwt.len() > 0 {
+        return Some(jwt.to_string());
+    }
+
+    //------------------from url---------------------
+    println!("------------get_jwt_of_req test path-------{}------", path);
+    match get_user_pwd_of_url(path) {
+        Some((_, v)) => Some(v),
+        _ => Some("password".to_string()),
     }
 }

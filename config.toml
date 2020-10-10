@@ -1,0 +1,3 @@
+ws_port = 9999
+ws_send_pwd = "password"
+auth_url = ["http://127.0.0.1:9110/InnerJwt", "http://127.0.0.1:9110/InnerJwt"]

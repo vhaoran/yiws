@@ -9,7 +9,7 @@ cp ./target/release/yi-ws  ./yi-ws.out
 # upx -9 *.out
 
 scp  -i ~/.ssh/yh.pem *.out  root@yh:~/prog-yi/ws/
-scp  -i ~/.ssh/yh.pem *.toml  root@yh:~/prog-yi/ws/
+scp  -i ~/.ssh/yh.pem config.toml  root@yh:~/prog-yi/ws/
 
 # rm -rf *.out
 echo " ok "

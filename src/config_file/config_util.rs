@@ -3,8 +3,7 @@ extern crate toml;
 
 use serde_derive::Deserialize;
 use std::env;
-use std::path::{PathBuf, Path};
-use std::borrow::Borrow;
+use std::path::{Path};
 
 /// This is what we're going to decode into. Each field is optional, meaning
 /// that it doesn't have to be present in TOML.
@@ -29,7 +28,7 @@ pub fn read_cfg() -> Option<Config> {
 
     let wd = wd().unwrap();
     for p in paths.iter() {
-        let mut full = Path::new(wd.as_str()).join(p).join(name.clone());
+        let full = Path::new(wd.as_str()).join(p).join(name.clone());
 
         //full.set_file_name(name.clone());
 

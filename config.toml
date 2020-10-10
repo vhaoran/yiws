@@ -7,5 +7,5 @@ ws_port = 9999
 # 这是服务器端连接时，需要的口令。
 # 连接测试: ws://whr:password@127.0.0.1:9999/dispatch
 ws_send_pwd = "password"
-# 这个url用于解析用户连接时传入的jwt
+# 这个url用于解析用户连接时传入的jwt,可以有多个.
 auth_url = ["http://127.0.0.1:9110/InnerJwt", "http://127.0.0.1:9110/InnerJwt"]

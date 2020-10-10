@@ -1,4 +1,7 @@
 extern crate toml;
+extern crate log;
+
+use log::*;
 
 
 use serde_derive::Deserialize;
@@ -32,10 +35,10 @@ pub fn read_cfg() -> Option<Config> {
 
         //full.set_file_name(name.clone());
 
-        println!("----config_util.rs---full {}-----", full.display());
+        debug!("----config_util.rs---full {}-----", full.display());
         if full.exists() {
             let text = fs::read_to_string(&full).unwrap();
-            println!("-----------file text:-{}-------------", text);
+            debug!("-----------file text:-{}-------------", text);
 
             return Some(toml::from_str(text.as_str()).unwrap());
         }
@@ -49,7 +52,7 @@ fn wd() -> Option<String> {
     // let path = env::current_dir().unwrap();
     let path = env::current_dir().unwrap();
 
-    println!("The current directory is {}", path.display());
+    debug!("The current directory is {}", path.display());
     Some(path.to_str().unwrap().to_string())
 }
 

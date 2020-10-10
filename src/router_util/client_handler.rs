@@ -1,5 +1,8 @@
 extern crate env_logger;
 extern crate ws;
+extern crate log;
+
+use log::*;
 
 pub struct ClientHandler {
     pub ws: ws::Sender,
@@ -15,8 +18,7 @@ impl ws::Handler for ClientHandler {
     }
 
     fn on_message(&mut self, msg: ws::Message) -> ws::Result<()> {
-        println!("Data handler received a message: {}", msg);
-        println!("Data handler going down.");
+        debug!("Data handler received a message: {}", msg);
         match msg.as_text() {
             Ok("ping") => {
                 let _r = self.ws.send("pong".to_string());

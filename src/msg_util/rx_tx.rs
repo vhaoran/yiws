@@ -1,4 +1,7 @@
-// impl Cnt {}
+extern crate log;
+
+use log::*;
+
 use once_cell::sync::OnceCell;
 use std::sync::mpsc::{SyncSender, sync_channel, Receiver};
 use std::sync::{Arc, Mutex};
@@ -21,7 +24,7 @@ pub fn prepare_rtx() -> Option<()> {
 
     async fn fn_loop(rx: Receiver<String>) {
         for each in rx.iter() {
-            println!("---------received:-{}-------------", each);
+            debug!("---------received:-{}-------------", each);
             super::dispatch_msg::do_dispatch(each.clone());
         }
     }

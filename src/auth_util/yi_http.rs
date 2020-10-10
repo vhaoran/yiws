@@ -1,4 +1,8 @@
 extern crate isahc;
+extern crate simplelog;
+
+use log::*;
+
 
 use std::time::Duration;
 use crate::config_file::config_init::get_cfg_auth_url;
@@ -14,7 +18,7 @@ pub fn get_uid(jwt: String) -> Option<u64> {
           "jwt": "{}"
         }}"#, jwt);
 
-        println!("----yi_http.rs---{}-----", body);
+        debug!("----yi_http.rs---{}-----", body);
 
         let mut response = Request::post(url)
             .header("Content-Type", "application/json")
@@ -23,24 +27,24 @@ pub fn get_uid(jwt: String) -> Option<u64> {
             .send()?;
 
         // Print some basic info about the response to standard output.
-        println!("Status: {}", response.status());
-        println!("Headers: {:#?}", response.headers());
+        debug!("Status: {}", response.status());
+        debug!("Headers: {:#?}", response.headers());
 
         // Read the response body as text into a string and print it.
         let s = response.text().unwrap().clone();
-        print!("text : {}", s);
-        println!("----yi_http.rs--s-{}-----", s);
+        debug!("text : {}", s);
+        debug!("----yi_http.rs--s-{}-----", s);
         Ok(s)
     }
 
     let r = x(jwt.as_str());
     match r {
         Ok(s) => {
-            println!("----yi_http.rs--before parse json-{}-----", s);
+            debug!("----yi_http.rs--before parse json-{}-----", s);
             parse_json_uid(s)
         }
         _ => {
-            println!("----yi_http.rs---not fetch-----");
+            debug!("----yi_http.rs---not fetch-----");
             Some(0)
         }
     }
@@ -54,12 +58,12 @@ fn parse_json_uid(str: String) -> Option<u64> {
     for v in l.iter() {
         s = s.replace(v, "");
     }
-    println!("--------s:----{}---------len:{}----", s, s.len());
+    debug!("--------s:----{}---------len:{}----", s, s.len());
 
     let r = s.parse::<u64>();
     match r {
         Ok(v) => {
-            println!("----yi_http.rs---get uid of {}-----", v);
+            debug!("----yi_http.rs---get uid of {}-----", v);
             Some(v)
         }
         _ => None,
@@ -73,8 +77,8 @@ fn parse_json_1() {
    }"#;
     let r = parse_json_uid(s.to_string());
     match r {
-        Some(v) => println!("------------{}-------------", v),
-        _ => println!("------------no data-------------"),
+        Some(v) => debug!("------------{}-------------", v),
+        _ => error!("------------no data-------------"),
     }
-    println!("-------------------------");
+    debug!("-------------------------");
 }

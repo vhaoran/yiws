@@ -1,3 +1,7 @@
+extern crate log;
+
+// use log::*;
+
 use std::fmt::Display;
 use std::fmt;
 use super::MsgWrapper;

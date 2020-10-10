@@ -1,4 +1,8 @@
 // impl Cnt {}
+extern crate log;
+
+use log::*;
+
 use once_cell::sync::OnceCell;
 use async_std::sync::Arc;
 use std::sync::Mutex;
@@ -7,7 +11,7 @@ use crate::config_file::config_util::read_cfg;
 
 pub fn init_cfg() {
     let r = glb_cfg();
-    println!("------------读取config.toml配置完成--------{:#?}-----", r);
+    debug!("------------读取config.toml配置完成--------{:#?}-----", r);
 }
 
 pub fn get_cfg() -> Option<Config> {

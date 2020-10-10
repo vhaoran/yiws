@@ -1,6 +1,8 @@
 extern crate ws;
 extern crate once_cell;
+extern crate log;
 
+use log::*;
 // use std::thread;
 // use std::thread::sleep;
 // use std::time::Duration;
@@ -69,8 +71,8 @@ pub fn display_cnt() {
             _ => "not data",
         };
 
-        println!("------------{}  {}-------------", k,
-                 s);
+        debug!("------------{}  {}-------------", k,
+               s);
     }
 }
 

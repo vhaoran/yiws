@@ -1,5 +1,8 @@
 extern crate env_logger;
 extern crate ws;
+extern crate log;
+
+use log::*;
 
 use crate::msg_util::rx_tx::{send_str};
 
@@ -14,7 +17,7 @@ impl ws::Handler for EchoDispatch {
         // self.ws.send(msg)
         //prepare_rtx(cast_msg);
         send_str(msg.to_string());
-        println!("---EchoDispatch->after send_str----------------------");
+        debug!("---EchoDispatch->after send_str----------------------");
         Ok(())
     }
 }

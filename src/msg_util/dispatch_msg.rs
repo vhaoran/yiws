@@ -1,11 +1,14 @@
 extern crate serde_json;
+extern crate log;
+
+use log::*;
 
 use serde_json::{Result, Value};
 use crate::msg_util::cast_msgs::cast_msg;
 use std::string::String;
 
 pub fn do_dispatch(msg: std::string::String) {
-    println!("----dispatch_msg.rs--receive-{}-----", msg);
+    debug!("----dispatch_msg.rs--receive-{}-----", msg);
     
     let (uid, data) = parse_str(msg.as_str());
 

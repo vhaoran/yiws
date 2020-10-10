@@ -24,3 +24,8 @@ async-std = "1.6.5"
 isahc = "0.9"
 # escape url
 urlencoding = "1.1.1"
+
+#log
+log = "0.4"
+simplelog = "0.8.0"
+

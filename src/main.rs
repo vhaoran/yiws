@@ -1,21 +1,28 @@
 extern crate env_logger;
 extern crate ws;
+extern crate log;
+
 
 use yi_ws::msg_util::rx_tx::prepare_rtx;
 use yi_ws::router_util::router::{Router, NotFound};
 use yi_ws::config_file::config_init::{init_cfg, get_cfg_port};
+use yi_ws::log_util::init_log;
+
+//extern crate log;
+use log::*;
 
 mod msg_util;
 
 fn main() {
-    env_logger::init();
+    //env_logger::init();
+    init_log();
 
     //--------读取配置文件-------------
     init_cfg();
     prepare_rtx();
 
     let cnt = format!("0.0.0.0:{}", get_cfg_port());
-    println!("------------listen at: {}-------------", cnt);
+    info!("------------listen at: {}-------------", cnt);
 
 
     // Listen on an address and call the closure for each connection
@@ -29,6 +36,6 @@ fn main() {
         }
     }) {
         // Inform the user of failure
-        println!("Failed to create WebSocket due to {:?}", error);
+        error!("Failed to create WebSocket due to {:?}", error);
     }
 }

@@ -2,6 +2,9 @@ extern crate env_logger;
 /// WebSocket server using trait objects to route
 /// to an infinitely extensible number of handlers
 extern crate ws;
+extern crate log;
+
+use log::*;
 
 use ws::CloseCode;
 use crate::router_util::url_util::{get_user_pwd_of_url, get_params_of_url_part};
@@ -21,13 +24,13 @@ impl ws::Handler for Router {
     fn on_request(&mut self, req: &ws::Request) -> ws::Result<ws::Response> {
         // let out = self.sender.clone();
         let path = crate::auth_util::decode_url(req.resource());
-        println!("-------path-----{}-------------", path);
+        debug!("-------path-----{}-------------", path);
 
         let host = match req.origin() {
             Ok(Some(s)) => s,
             _ => "",
         };
-        println!("---------origin---{}-------------", host);
+        debug!("---------origin---{}-------------", host);
 
         if path.contains("dispatch") {
             let auth = get_user_pwd_of_req(req, host);
@@ -42,7 +45,7 @@ impl ws::Handler for Router {
                 }
             }
         } else if path.contains("/ws") {
-            println!("------------enter /ws-------------");
+            debug!("------------enter /ws-------------");
             let uid = get_uid_of_req(req, path.as_str());
             match uid {
                 Some(i) => {
@@ -51,7 +54,7 @@ impl ws::Handler for Router {
                         data: vec!["one"],
                     });
 
-                    println!("------------uid of {}-------------", i);
+                    debug!("------------uid of {}-------------", i);
 
                     cnt::push_cnt(i, Some(self.sender.clone()));
                 }
@@ -112,11 +115,11 @@ fn get_uid_of_req(req: &ws::Request, path: &str) -> Option<u64> {
 
     match get_jwt_of_req(req, path) {
         Some(jwt_str) => {
-            println!("----router.rs---jwt_str {}-----", jwt_str);
+            debug!("----router.rs---jwt_str {}-----", jwt_str);
             get_uid(jwt_str.to_string())
         }
         _ => {
-            println!("----router.rs---not get jwt-----");
+            warn!("----router.rs---not get jwt-----");
             None
         }
     }
@@ -124,7 +127,7 @@ fn get_uid_of_req(req: &ws::Request, path: &str) -> Option<u64> {
 
 fn get_jwt_of_req(req: &ws::Request, path: &str) -> Option<String> {
     //------------------from header---------------------
-    println!("------------get_jwt_of_req  enter-------------");
+    debug!("------------get_jwt_of_req  enter-------------");
     let jwt = match req.header("Jwt") {
         Some(buf) =>
             match std::str::from_utf8(buf) {
@@ -139,7 +142,7 @@ fn get_jwt_of_req(req: &ws::Request, path: &str) -> Option<String> {
     }
 
     //------------------from url---------------------
-    println!("------------get_jwt_of_req test path-------{}------", path);
+    debug!("------------get_jwt_of_req test path-------{}------", path);
     match get_params_of_url_part(path) {
         Some(m) =>
             match m.get("jwt") {
@@ -153,7 +156,7 @@ fn get_jwt_of_req(req: &ws::Request, path: &str) -> Option<String> {
 #[allow(unused_imports)]
 #[allow(dead_code)]
 fn get_user_pwd_of_req(req: &ws::Request, path: &str) -> Option<String> {
-    println!("------------get_jwt_of_req  enter-------------");
+    debug!("------------get_jwt_of_req  enter-------------");
     let jwt = match req.header("Jwt") {
         Some(buf) =>
             match std::str::from_utf8(buf) {
@@ -168,7 +171,7 @@ fn get_user_pwd_of_req(req: &ws::Request, path: &str) -> Option<String> {
     }
 
     //------------------from url---------------------
-    println!("------------get_jwt_of_req test path-------{}------", path);
+    debug!("------------get_jwt_of_req test path-------{}------", path);
     match get_user_pwd_of_url(path) {
         Some((_, v)) => Some(v),
         _ => Some("password".to_string()),

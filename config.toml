@@ -1,3 +1,11 @@
+# 提供两个路由
+#  ws://host:9999/dispatch  用于发送，只发消息，
+#  ws://host:9999/ws  用于客户端监听，推送监听，只接收消息和ping/
+
+# 这是websocket server监听的端口
 ws_port = 9999
+# 这是服务器端连接时，需要的口令。
+# 连接测试: ws://whr:password@127.0.0.1:9999/dispatch
 ws_send_pwd = "password"
+# 这个url用于解析用户连接时传入的jwt
 auth_url = ["http://127.0.0.1:9110/InnerJwt", "http://127.0.0.1:9110/InnerJwt"]

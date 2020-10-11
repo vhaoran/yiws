@@ -3,10 +3,12 @@ extern crate ws;
 extern crate log;
 
 use log::*;
+use crate::msg_util::cnt;
 
 pub struct ClientHandler {
     pub ws: ws::Sender,
     pub data: Vec<&'static str>,
+    pub uid: u64,
 }
 
 impl ws::Handler for ClientHandler {
@@ -21,12 +23,26 @@ impl ws::Handler for ClientHandler {
         debug!("Data handler received a message: {}", msg);
         match msg.as_text() {
             Ok("ping") => {
-                let _r = self.ws.send("pong".to_string());
+                let s = format!("pong({})", self.uid);
+                debug!("ping of {}", self.uid);
+                let _r = self.ws.send(s);
             }
             _ => {}
         }
         //self.ws.send(msg)
         Ok(())
+    }
+
+    fn on_close(&mut self, _code: ws::CloseCode, _reason: &str) {
+        cnt::rm_cnt(self.uid);
+    }
+
+    fn on_error(&mut self, _err: ws::Error) {
+        cnt::rm_cnt(self.uid);
+    }
+
+    fn on_shutdown(&mut self) {
+        cnt::rm_cnt(self.uid);
     }
 }
 

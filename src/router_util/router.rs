@@ -36,7 +36,9 @@ impl ws::Handler for Router {
             let auth = get_user_pwd_of_req(req, host);
             match auth {
                 Some(pwd) => if pwd == get_cfg_pwd() {
-                    self.inner = Box::new(EchoDispatch { ws: self.sender.clone() });
+                    self.inner = Box::new(EchoDispatch {
+                        ws: self.sender.clone()
+                    });
                     ()
                 },
                 _ => {
@@ -52,6 +54,7 @@ impl ws::Handler for Router {
                     self.inner = Box::new(ClientHandler {
                         ws: self.sender.clone(),
                         data: vec!["one"],
+                        uid: i,
                     });
 
                     debug!("------------uid of {}-------------", i);

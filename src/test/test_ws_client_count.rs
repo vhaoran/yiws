@@ -30,9 +30,9 @@ fn ws_cnt_test() {
         });
     }
 
-    for i in 0..10_0000 {
+    for i in 0..9_000_000 {
         task::spawn(f(i as u64));
-        std::thread::sleep(std::time::Duration::new(0, 1000_000));
+        std::thread::sleep(std::time::Duration::new(0, 1000));
     }
 
     loop {

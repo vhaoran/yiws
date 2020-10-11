@@ -7,7 +7,7 @@ echo $(pwd)
 cargo build --release
 
 cp ./target/release/yi-ws  ./yi-ws.out
-# upx -9 *.out
+upx -9 *.out
 
 scp  -i ~/.ssh/yh.pem *.out  root@yh:~/prog-yi/ws/
 scp  -i ~/.ssh/yh.pem config.toml  root@yh:~/prog-yi/ws/

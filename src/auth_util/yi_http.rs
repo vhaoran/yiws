@@ -1,5 +1,6 @@
 extern crate isahc;
 extern crate simplelog;
+extern crate cached;
 
 use log::*;
 
@@ -7,8 +8,12 @@ use log::*;
 use std::time::Duration;
 use crate::config_file::config_init::get_cfg_auth_url;
 
-#[allow(unused_imports)]
+
+use cached::proc_macro::cached;
+// use cached::SizedCache;
+
 #[allow(dead_code)]
+#[cached]
 pub fn get_uid(jwt: String) -> Option<u64> {
     use isahc::prelude::*;
     fn x(jwt: &str) -> Result<String, isahc::Error> {

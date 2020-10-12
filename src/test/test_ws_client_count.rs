@@ -1,5 +1,3 @@
-use std::thread::{park_timeout, sleep};
-
 #[test]
 fn ws_cnt_test() {
     use async_std::{
@@ -12,7 +10,7 @@ fn ws_cnt_test() {
         println!("-------------------------");
         extern crate ws;
 
-        use ws::{Builder, Sender, Settings};
+        use ws::{ Sender, Settings};
 
         let url = format!("ws://0755yicai.com:8083/ws?jwt=test|{}", uid);
         use ws::{connect, CloseCode};
@@ -27,10 +25,9 @@ fn ws_cnt_test() {
                 task::sleep(std::time::Duration::new(60, 10_000));
                 out.close(CloseCode::Normal)
             }
-        }).is_err(){
-            error!(" connection error")
+        }).is_err() {
+            println!(" connection error")
         }
-
     }
 
     loop {
@@ -40,8 +37,8 @@ fn ws_cnt_test() {
         }
     }
 
-    loop {
-        println!("------------loop---{}--", std::time::UNIX_EPOCH.elapsed().unwrap().as_millis());
-        std::thread::sleep(std::time::Duration::new(1, 0))
-    }
+    // loop {
+    //     println!("------------loop---{}--", std::time::UNIX_EPOCH.elapsed().unwrap().as_millis());
+    //     std::thread::sleep(std::time::Duration::new(1, 0))
+    // }
 }

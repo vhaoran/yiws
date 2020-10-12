@@ -91,7 +91,7 @@ fn get_cfg_1() {
 fn get_url_cfg_1() {
     init_cfg();
 
-    for i in 0..100 {
+    for _i in 0..100 {
         let x = get_cfg_auth_url();
         println!("--pwd:----------{}-------------", x);
         std::thread::sleep(std::time::Duration::new(1, 0));

@@ -29,3 +29,5 @@ urlencoding = "1.1.1"
 log = "0.4"
 simplelog = "0.8.0"
 
+#cache
+cached = "0.19.0"

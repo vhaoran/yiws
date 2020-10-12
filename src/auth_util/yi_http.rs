@@ -13,7 +13,7 @@ use cached::proc_macro::cached;
 // use cached::SizedCache;
 
 #[allow(dead_code)]
-#[cached]
+#[cached(size = 10000)]
 pub fn get_uid(jwt: String) -> Option<u64> {
     use isahc::prelude::*;
     fn x(jwt: &str) -> Result<String, isahc::Error> {

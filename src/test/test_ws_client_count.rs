@@ -24,15 +24,17 @@ fn ws_cnt_test() {
                 println!("-{}-----{}-",
                          std::time::UNIX_EPOCH.elapsed().unwrap().as_millis(),
                          msg);
-                //std::thread::sleep(std::time::Duration::new(1, 0));
+                task::sleep(std::time::Duration::new(60, 10_000));
                 out.close(CloseCode::Normal)
             }
         });
     }
 
-    for i in 0..9_000_000 {
-        task::spawn(f(i as u64));
-        std::thread::sleep(std::time::Duration::new(0, 1000));
+    loop {
+        for i in 0..900_000_000 {
+            task::spawn(f(i as u64));
+            // std::thread::sleep(std::time::Duration::new(0, 1000_000));
+        }
     }
 
     loop {

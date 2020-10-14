@@ -12,6 +12,7 @@ use std::path::{Path};
 /// that it doesn't have to be present in TOML.
 #[derive(Debug, Deserialize)]
 pub struct Config {
+    pub ws_max: Option<u64>,
     pub ws_port: Option<u64>,
     pub ws_send_pwd: Option<String>,
     pub auth_url: Option<Vec<String>>,

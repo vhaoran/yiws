@@ -2,6 +2,8 @@
 #  ws://host:9999/dispatch  用于发送，只发消息，
 #  ws://host:9999/ws  用于客户端监听，推送监听，只接收消息和ping/
 
+# websocks可以接民睥最大连接数量
+ws_max = 10000
 # 这是websocket server监听的端口
 ws_port = 9999
 # 这是服务器端连接时，需要的口令。

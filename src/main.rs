@@ -4,7 +4,7 @@ extern crate log;
 
 use yi_ws::msg_util::rx_tx::prepare_rtx;
 use yi_ws::router_util::router::{Router, NotFound};
-use yi_ws::config_file::config_init::{init_cfg, get_cfg_port};
+use yi_ws::config_file::config_init::{init_cfg, get_cfg_port, get_cfg_ws_max};
 use yi_ws::log_util::init_log;
 
 //extern crate log;
@@ -12,7 +12,7 @@ use log::*;
 
 mod msg_util;
 
-use ws::{Builder, Sender, Settings};
+use ws::{Builder, Settings};
 
 fn main() {
     //env_logger::init();
@@ -42,7 +42,7 @@ fn main() {
     if let Err(error) =
     Builder::new()
         .with_settings(Settings {
-            max_connections: 1_000,
+            max_connections: get_cfg_ws_max() as usize,
             ..Settings::default()
         })
         .build(|out| {

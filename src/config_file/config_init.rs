@@ -22,6 +22,7 @@ pub fn get_cfg() -> Option<Config> {
         ws_port: c.ws_port.clone(),
         ws_send_pwd: c.ws_send_pwd.clone(),
         auth_url: c.auth_url.clone(),
+        ws_max: c.ws_max,
     })
 }
 
@@ -32,10 +33,18 @@ pub fn get_cfg_pwd() -> String {
     }
 }
 
+
 pub fn get_cfg_port() -> u64 {
     match get_cfg() {
         Some(c) => c.ws_port.unwrap(),
         _ => 9999,
+    }
+}
+
+pub fn get_cfg_ws_max() -> u64 {
+    match get_cfg() {
+        Some(c) => c.ws_max.unwrap(),
+        _ => 10000,
     }
 }
 

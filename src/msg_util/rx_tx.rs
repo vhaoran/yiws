@@ -13,6 +13,7 @@ use async_std::{
     //prelude::*,
     // Future或输入输出流
 };
+use crate::msg_util::cnt::display_cnt_count;
 
 #[allow(dead_code)]
 pub type DispatchCallback = fn();
@@ -26,6 +27,9 @@ pub fn prepare_rtx() -> Option<()> {
         for each in rx.iter() {
             debug!("---------received:-{}-------------", each);
             super::dispatch_msg::do_dispatch(each.clone());
+
+            //显示连接数量
+            display_cnt_count();
         }
     }
 

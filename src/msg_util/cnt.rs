@@ -31,6 +31,10 @@ pub fn push_cnt(key: u64, sender: Option<Sender>) {
     let a = Arc::clone(glb_cnt());
     let mut m = a.lock().unwrap();
 
+    if m.contains_key(&key) {
+        let _r = m.remove(&key);
+    }
+
     match sender {
         Some(v) => m.insert(key, Some(v.clone())),
         _ => m.insert(key, sender),
@@ -57,7 +61,9 @@ pub fn get_cnt(key: u64) -> Option<Sender> {
 pub fn rm_cnt(key: u64) {
     let a = Arc::clone(glb_cnt());
     let mut m = a.lock().unwrap();
-    let _r = m.remove(&key);
+    if m.contains_key(&key) {
+        let _r = m.remove(&key);
+    }
 }
 
 #[allow(unused_imports)]
@@ -75,6 +81,19 @@ pub fn display_cnt() {
                s);
     }
 }
+
+
+#[allow(unused_imports)]
+#[allow(dead_code)]
+pub fn display_cnt_count() {
+    let a = Arc::clone(glb_cnt());
+    let m = a.lock().unwrap();
+
+    println!("----cnt.rs---cnt_count: {}-----", m.len());
+}
+
+
+
 
 
 

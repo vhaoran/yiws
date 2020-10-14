@@ -4,6 +4,7 @@ extern crate log;
 
 use log::*;
 use crate::msg_util::cnt;
+use self::ws::CloseCode;
 
 pub struct ClientHandler {
     pub ws: ws::Sender,
@@ -30,13 +31,15 @@ impl ws::Handler for ClientHandler {
         Ok(())
     }
 
-    fn on_close(&mut self, _code: ws::CloseCode, _reason: &str) {
+    fn on_close(&mut self, code: ws::CloseCode, _reason: &str) {
         cnt::rm_cnt(self.uid);
         info!(" on_close: {}", self.uid)
+        self.ws.close(code);
     }
 
     fn on_error(&mut self, _err: ws::Error) {
         cnt::rm_cnt(self.uid);
+        self.ws.close(CloseCode::Normal);
         error!(" on_error: {}", self.uid)
     }
 

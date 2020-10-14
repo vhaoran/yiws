@@ -27,31 +27,32 @@ fn main() {
 
 
     // Listen on an address and call the closure for each connection
-    if let Err(error) =
-    ws::listen(cnt, |out| {
-        Router {
-            sender: out,
-            inner: Box::new(NotFound),
-        }
-    }) {
-        error!("Failed to create WebSocket due to {:?}", error);
-    }
-
-    // // Listen on an address and call the closure for each connection
     // if let Err(error) =
-    // Builder::new()
-    //     .with_settings(Settings {
-    //         max_connections: 10_0000,
-    //         ..Settings::default()
-    //     })
-    //     .build(|out| {
-    //         Router {
-    //             sender: out,
-    //             inner: Box::new(NotFound),
-    //         }
-    //     })
-    //     .unwrap()
-    //     .listen(cnt) {
+    // ws::listen(cnt, |out| {
+    //     Router {
+    //         sender: out,
+    //         inner: Box::new(NotFound),
+    //     }
+    // }) {
     //     error!("Failed to create WebSocket due to {:?}", error);
     // }
+
+
+    // Listen on an address and call the closure for each connection
+    if let Err(error) =
+    Builder::new()
+        .with_settings(Settings {
+            max_connections: 1_000,
+            ..Settings::default()
+        })
+        .build(|out| {
+            Router {
+                sender: out,
+                inner: Box::new(NotFound),
+            }
+        })
+        .unwrap()
+        .listen(cnt) {
+        error!("Failed to create WebSocket due to {:?}", error);
+    }
 }

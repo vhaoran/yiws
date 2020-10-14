@@ -7,15 +7,12 @@ use crate::msg_util::cnt;
 
 pub struct ClientHandler {
     pub ws: ws::Sender,
-    pub data: Vec<&'static str>,
     pub uid: u64,
 }
 
 impl ws::Handler for ClientHandler {
     fn on_open(&mut self, _: ws::Handshake) -> ws::Result<()> {
-        for msg in &self.data {
-            self.ws.send(*msg)?
-        }
+        let _r = self.ws.send("welcome...".to_string());
         Ok(())
     }
 

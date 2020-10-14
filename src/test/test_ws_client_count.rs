@@ -10,7 +10,7 @@ fn ws_cnt_test() {
         println!("-------------------------");
         extern crate ws;
 
-        use ws::{ Sender, Settings};
+        // use ws::{ Sender, Settings};
 
         let url = format!("ws://0755yicai.com:8083/ws?jwt=test|{}", uid);
         use ws::{connect, CloseCode};

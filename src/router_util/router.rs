@@ -53,7 +53,6 @@ impl ws::Handler for Router {
                 Some(i) => {
                     self.inner = Box::new(ClientHandler {
                         ws: self.sender.clone(),
-                        data: vec!["one"],
                         uid: i,
                     });
 

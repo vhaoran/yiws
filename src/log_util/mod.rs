@@ -9,14 +9,15 @@ use std::env;
 use std::path::{PathBuf};
 
 pub fn init_log() {
-    let mut path: PathBuf = env::current_dir().unwrap()
+    let path: PathBuf = env::current_dir().unwrap()
         .join("logs");
     if !path.exists() {
         let _r = std::fs::create_dir(path.clone());
     }
 
 
-    path.set_file_name("sys.log");
+    let path = path.join(PathBuf::from("sys.log"));
+    // path.set_file_name("sys.log");
 
     let s = path.to_str().unwrap().to_string();
     println!("----mod.rs---full-{}----", s);
@@ -31,6 +32,7 @@ pub fn init_log() {
                          File::create(s).unwrap()),
     ])
         .unwrap();
+
 
     debug!("debug level,only for test! ");
     error!("err logger,only for test! ");

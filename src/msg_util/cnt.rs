@@ -26,6 +26,7 @@ pub fn glb_cnt() -> &'static Arc<Mutex<HashMap<u64, Option<Sender>>>> {
     })
 }
 
+
 #[allow(dead_code)]
 pub fn push_cnt(key: u64, sender: Option<Sender>) {
     let a = Arc::clone(glb_cnt());
@@ -40,6 +41,23 @@ pub fn push_cnt(key: u64, sender: Option<Sender>) {
         _ => m.insert(key, sender),
     };
 }
+
+#[allow(dead_code)]
+pub fn assert_push_cnt(key: u64, sender: Option<Sender>) {
+    let a = Arc::clone(glb_cnt());
+    let mut m = a.lock().unwrap();
+
+    //存在时返回，不存在时新增
+    if m.contains_key(&key) {
+        return;
+    }
+
+    match sender {
+        Some(v) => m.insert(key, Some(v.clone())),
+        _ => m.insert(key, sender),
+    };
+}
+
 
 #[allow(dead_code)]
 pub fn get_cnt(key: u64) -> Option<Sender> {

@@ -26,6 +26,9 @@ impl ws::Handler for ClientHandler {
                 let _r = self.ws.send(s);
 
                 //
+                cnt::assert_push_cnt(self.uid.clone(), Some(self.ws.clone()));
+
+                //
                 cnt::display_cnt_count();
             }
             _ => {}

@@ -24,6 +24,7 @@ impl ws::Handler for ClientHandler {
                 let s = format!("pong({})", self.uid);
                 debug!("ping of {}", self.uid);
                 let _r = self.ws.send(s);
+
                 //
                 cnt::display_cnt_count();
             }

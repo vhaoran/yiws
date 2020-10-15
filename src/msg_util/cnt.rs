@@ -89,7 +89,7 @@ pub fn display_cnt_count() {
     let a = Arc::clone(glb_cnt());
     let m = a.lock().unwrap();
 
-    println!("----cnt.rs---cnt_count: {}-----", m.len());
+    debug!("----cnt.rs---cnt_count: {}-----", m.len());
 }
 
 

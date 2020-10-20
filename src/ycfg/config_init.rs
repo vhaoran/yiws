@@ -11,7 +11,7 @@ use crate::ycfg::config_util::read_cfg;
 
 pub fn init_cfg() {
     let r = glb_cfg();
-    debug!("------------读取config.toml配置完成--------{:#?}-----", r);
+    info!("------------读取config.toml配置完成--------{:#?}-----", r);
 }
 
 pub fn get_cfg() -> Option<Config> {

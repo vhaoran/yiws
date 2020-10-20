@@ -24,17 +24,17 @@ pub fn init_log() {
 
     CombinedLogger
     ::init(vec![
-        TermLogger::new(LevelFilter::Error,
+        TermLogger::new(LevelFilter::Info,
                         Config::default(),
                         TerminalMode::Mixed),
-        WriteLogger::new(LevelFilter::Error,
+        WriteLogger::new(LevelFilter::Info,
                          Config::default(),
                          File::create(s).unwrap()),
     ])
         .unwrap();
 
 
-    debug!("debug level,only for test! ");
+    info!("debug level,only for test! ");
     error!("err logger,only for test! ");
 }
 
@@ -43,7 +43,7 @@ fn wd() -> Option<String> {
     // let path = env::current_dir().unwrap();
     let path = env::current_dir().unwrap();
 
-    println!("The current directory is {}", path.display());
+    info!("The current directory is {}", path.display());
     Some(path.to_str().unwrap().to_string())
 }
 

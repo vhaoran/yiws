@@ -10,9 +10,11 @@ use ws::CloseCode;
 use crate::router_util::url_util::{get_user_pwd_of_url, get_params_of_url_part};
 use crate::router_util::echo_dispatch::EchoDispatch;
 use crate::router_util::client_handler::ClientHandler;
-use crate::auth_util::yi_http::get_uid;
-use crate::msg_util::cnt;
-use crate::config_file::config_init::get_cfg_pwd;
+
+use crate::ymsg;
+use crate::ycfg;
+use crate::yauth;
+
 
 // A WebSocket handler that routes connections to different boxed handlers by resource
 pub struct Router {
@@ -23,7 +25,7 @@ pub struct Router {
 impl ws::Handler for Router {
     fn on_request(&mut self, req: &ws::Request) -> ws::Result<ws::Response> {
         // let out = self.sender.clone();
-        let path = crate::auth_util::decode_url(req.resource());
+        let path = crate::yauth::decode_url(req.resource());
         debug!("-------path-----{}-------------", path);
 
         let host = match req.origin() {
@@ -35,7 +37,7 @@ impl ws::Handler for Router {
         if path.contains("dispatch") {
             let auth = get_user_pwd_of_req(req, host);
             match auth {
-                Some(pwd) => if pwd == get_cfg_pwd() {
+                Some(pwd) => if pwd == ycfg::get_cfg_pwd() {
                     self.inner = Box::new(EchoDispatch {
                         ws: self.sender.clone()
                     });
@@ -58,7 +60,7 @@ impl ws::Handler for Router {
 
                     debug!("------------uid of {}-------------", i);
 
-                    cnt::push_cnt(i, Some(self.sender.clone()));
+                    ymsg::push_cnt(i, Some(self.sender.clone()));
                 }
                 _ => {}
             }
@@ -113,12 +115,10 @@ impl ws::Handler for NotFound {
 #[allow(unused_imports)]
 #[allow(dead_code)]
 fn get_uid_of_req(req: &ws::Request, path: &str) -> Option<u64> {
-    use crate::auth_util::yi_http;
-
     match get_jwt_of_req(req, path) {
         Some(jwt_str) => {
             debug!("----router.rs---jwt_str {}-----", jwt_str);
-            get_uid(jwt_str.to_string())
+            yauth::get_uid(jwt_str.to_string())
         }
         _ => {
             warn!("----router.rs---not get jwt-----");

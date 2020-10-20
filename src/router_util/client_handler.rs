@@ -3,7 +3,8 @@ extern crate ws;
 extern crate log;
 
 use log::*;
-use crate::msg_util::cnt;
+use crate::ymsg;
+
 // use self::ws::CloseCode;
 
 pub struct ClientHandler {
@@ -26,10 +27,10 @@ impl ws::Handler for ClientHandler {
                 let _r = self.ws.send(s);
 
                 //
-                cnt::assert_push_cnt(self.uid.clone(), Some(self.ws.clone()));
+                ymsg::assert_push_cnt(self.uid.clone(), Some(self.ws.clone()));
 
                 //
-                cnt::display_cnt_count();
+                ymsg::display_cnt_count();
             }
             _ => {}
         }
@@ -38,17 +39,17 @@ impl ws::Handler for ClientHandler {
     }
 
     fn on_close(&mut self, _code: ws::CloseCode, _reason: &str) {
-        cnt::rm_cnt(self.uid);
+        ymsg::rm_cnt(self.uid);
         info!(" -----------on_close: {}", self.uid);
     }
 
     fn on_error(&mut self, _err: ws::Error) {
-        cnt::rm_cnt(self.uid);
+        ymsg::rm_cnt(self.uid);
         error!("----------- on_error: {}", self.uid)
     }
 
     fn on_shutdown(&mut self) {
-        cnt::rm_cnt(self.uid);
+        ymsg::rm_cnt(self.uid);
         info!("----------- on_shutdown: {}", self.uid)
     }
 }

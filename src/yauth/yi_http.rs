@@ -4,21 +4,20 @@ extern crate cached;
 
 use log::*;
 
-
 use std::time::Duration;
-use crate::config_file::config_init::get_cfg_auth_url;
-
 
 use cached::proc_macro::cached;
+use crate::ycfg;
 // use cached::SizedCache;
 
+
 #[allow(dead_code)]
-#[cached(size = 10000)]
+#[cached(size = 1000)]
 pub fn get_uid(jwt: String) -> Option<u64> {
     use isahc::prelude::*;
     fn x(jwt: &str) -> Result<String, isahc::Error> {
         // let url = "http://127.0.0.1:9110/InnerJwt";
-        let url = get_cfg_auth_url();
+        let url = ycfg::get_cfg_auth_url();
         let body = format!(r#"{{
           "jwt": "{}"
         }}"#, jwt);
@@ -87,3 +86,24 @@ fn parse_json_1() {
     }
     debug!("-------------------------");
 }
+
+
+#[cached(size = 1000)]
+fn fn_cache(str: String) -> Option<u64> {
+    Some(str.len() as u64)
+}
+
+
+#[test]
+fn cached_mem_leak_1() {
+    loop {
+        for i in 0..1_000_000_000 {
+            let s = format!("str-{}", i);
+            let x = fn_cache(s);
+            if i % 10000 == 1 {
+                println!("----to  {} ->-{}--", i, x.unwrap());
+            }
+        }
+    }
+}
+

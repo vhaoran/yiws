@@ -1,8 +1,9 @@
-pub mod msg_body;
-pub mod cnt;
-pub mod rx_tx;
-pub mod cast_msgs;
-pub mod dispatch_msg;
+extern crate log;
+
+// use log::*;
+
+use std::fmt::Display;
+use std::fmt;
 
 //extern crate toml;
 extern crate serde_derive;
@@ -20,4 +21,13 @@ use serde_derive::Deserialize;
 pub struct MsgWrapper {
     pub to: Option<u64>,
     pub body: Value,
+}
+
+
+#[allow(unused_imports)]
+#[allow(dead_code)]
+impl Display for MsgWrapper {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "({}, {})", self.to.unwrap_or(0), self.body.to_string())
+    }
 }

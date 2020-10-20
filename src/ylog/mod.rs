@@ -20,7 +20,7 @@ pub fn init_log() {
     // path.set_file_name("sys.log");
 
     let s = path.to_str().unwrap().to_string();
-    println!("----mod.rs---full-{}----", s);
+    println!("----ylog---full-{}----", s);
 
     CombinedLogger
     ::init(vec![

@@ -2,10 +2,12 @@ extern crate env_logger;
 extern crate ws;
 extern crate log;
 
+use crate::ymsg;
+
 use log::*;
 
-use crate::msg_util::rx_tx::{send_str};
-// use crate::msg_util::cnt;
+
+// use crate::ymsg::cnt;
 
 // This handler simply echoes all messages back to the client
 pub struct EchoDispatch {
@@ -24,7 +26,7 @@ impl ws::Handler for EchoDispatch {
             Ok("ping") => {
                 let _r = self.ws.send("pong".to_string());
             }
-            _ => { send_str(msg.to_string()); }
+            _ => { ymsg::send_str(msg.to_string()); }
         }
         Ok(())
     }

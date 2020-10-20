@@ -4,8 +4,8 @@ extern crate serde_json;
 #[allow(unused_imports)]
 #[allow(dead_code)]
 
-//use crate::msg_util::msg_body::MsgWrapper;
-use crate::msg_util::MsgWrapper;
+//use crate::ymsg::msg_body::MsgWrapper;
+use crate::ymsg::MsgWrapper;
 
 #[test]
 fn msg_body_1() {

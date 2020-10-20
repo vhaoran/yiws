@@ -7,7 +7,7 @@ use once_cell::sync::OnceCell;
 use async_std::sync::Arc;
 use std::sync::Mutex;
 use super::config_util::Config;
-use crate::config_file::config_util::read_cfg;
+use crate::ycfg::config_util::read_cfg;
 
 pub fn init_cfg() {
     let r = glb_cfg();

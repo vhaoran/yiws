@@ -2,27 +2,27 @@ extern crate env_logger;
 extern crate ws;
 extern crate log;
 
-use yi_ws::msg_util::rx_tx::prepare_rtx;
+
 use yi_ws::router_util::router::{Router, NotFound};
-use yi_ws::config_file::config_init::{init_cfg, get_cfg_port, get_cfg_ws_max};
-use yi_ws::log_util::init_log;
+use yi_ws::ycfg;
 
 //extern crate log;
 use log::*;
 
-mod msg_util;
+mod ymsg;
 
 use ws::{Builder, Settings};
+use yi_ws::ylog;
 
 fn main() {
     //env_logger::init();
-    init_log();
+    ylog::init_log();
 
     //--------读取配置文件-------------
-    init_cfg();
-    prepare_rtx();
+    ycfg::init_cfg();
+    ymsg::prepare_rtx();
 
-    let cnt = format!("0.0.0.0:{}", get_cfg_port());
+    let cnt = format!("0.0.0.0:{}", ycfg::get_cfg_port());
     info!("------------listen at: {}-------------", cnt);
 
 
@@ -42,7 +42,7 @@ fn main() {
     if let Err(error) =
     Builder::new()
         .with_settings(Settings {
-            max_connections: get_cfg_ws_max() as usize,
+            max_connections: ycfg::get_cfg_ws_max() as usize,
             ..Settings::default()
         })
         .build(|out| {

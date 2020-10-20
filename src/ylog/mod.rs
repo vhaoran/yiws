@@ -17,7 +17,7 @@ pub fn init_log() {
     }
 
 
-    let path = path.join(PathBuf::from("ws.log"));
+    let path = path.join(PathBuf::from("sys.log"));
     // path.set_file_name("sys.log");
 
     let s = path.to_str().unwrap().to_string();

@@ -31,7 +31,7 @@ fn ws_send(ws: Sender, to: u64, body: String) {
 
     //remove web socket cnt
     if r.is_err() {
-        error!("投递到{}的消息{} 失败，可能对方不在线！", to, body);
+        error!("投递到{}的消息{} 失败，可能对方不在线！", to, body.clone());
         rm_cnt(to);
     }
 }

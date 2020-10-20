@@ -25,10 +25,10 @@ pub fn init_log() {
 
     CombinedLogger
     ::init(vec![
-        TermLogger::new(LevelFilter::Debug,
+        TermLogger::new(LevelFilter::Info,
                         Config::default(),
                         TerminalMode::Mixed),
-        WriteLogger::new(LevelFilter::Debug,
+        WriteLogger::new(LevelFilter::Info,
                          Config::default(),
                          File::create(s).unwrap()),
     ])

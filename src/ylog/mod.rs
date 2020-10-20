@@ -17,7 +17,7 @@ pub fn init_log() {
     }
 
 
-    let path = path.join(PathBuf::from("sys.log"));
+    let path = path.join(PathBuf::from("ws.log"));
     // path.set_file_name("sys.log");
 
     let s = path.to_str().unwrap().to_string();
@@ -25,10 +25,10 @@ pub fn init_log() {
 
     CombinedLogger
     ::init(vec![
-        TermLogger::new(LevelFilter::Info,
+        TermLogger::new(LevelFilter::Debug,
                         Config::default(),
                         TerminalMode::Mixed),
-        WriteLogger::new(LevelFilter::Info,
+        WriteLogger::new(LevelFilter::Debug,
                          Config::default(),
                          File::create(s).unwrap()),
     ])

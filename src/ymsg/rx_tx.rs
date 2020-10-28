@@ -1,10 +1,8 @@
 extern crate log;
 
-use log::*;
-
-use once_cell::sync::OnceCell;
-use std::sync::mpsc::{SyncSender, sync_channel, Receiver};
 use std::sync::{Arc, Mutex};
+use std::sync::mpsc::{Receiver, sync_channel, SyncSender};
+
 use async_std::{
     // fs::File,
     // 支持异步操作的文件结构体
@@ -13,6 +11,9 @@ use async_std::{
     //prelude::*,
     // Future或输入输出流
 };
+use log::*;
+use once_cell::sync::OnceCell;
+
 use crate::ymsg::cnt::display_cnt_count;
 
 #[allow(dead_code)]
@@ -20,7 +21,10 @@ pub type DispatchCallback = fn();
 
 #[allow(dead_code)]
 pub fn prepare_rtx() -> Option<()> {
-    let (tx, rx) = sync_channel::<String>(0);
+    let high = 10_000;
+    let (tx, rx) = sync_channel::<String>(high);
+
+    info!(" init glb_tx ....");
     glb_tx(Some(tx));
 
     async fn fn_loop(rx: Receiver<String>) {
@@ -40,6 +44,8 @@ pub fn prepare_rtx() -> Option<()> {
 
 #[allow(dead_code)]
 pub fn send_str(s: String) -> Option<()> {
+    debug!("....send_str.....");
+
     let none: Option<SyncSender<String>> = None;
     let a = Arc::clone(glb_tx(none));
     let tx = a.lock().unwrap();

@@ -26,7 +26,7 @@ impl ws::Handler for EchoDispatch {
             Ok("ping") => {
                 let _r = self.ws.send("pong".to_string());
             }
-            _ => { ymsg::send_str(msg.to_string()); }
+            _ => { ymsg::do_dispatch(msg.to_string()); }
         }
         Ok(())
     }

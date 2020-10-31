@@ -4,6 +4,7 @@ use log::*;
 
 use crate::ymsg::cnt::{get_cnt, rm_cnt};
 use ws::Sender;
+use crate::ymsg::display_cnt_count;
 // use std::thread::spawn;
 
 pub fn cast_msg(to: u64, body: String) {
@@ -34,4 +35,6 @@ fn ws_send(ws: Sender, to: u64, body: String) {
         error!("投递到{}的消息{} 失败，可能对方不在线！", to, body.clone());
         rm_cnt(to);
     }
+
+    display_cnt_count();
 }

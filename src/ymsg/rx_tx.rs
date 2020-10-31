@@ -1,6 +1,5 @@
 extern crate log;
 
-use std::sync::{Arc, Mutex};
 use std::sync::mpsc::{Receiver, sync_channel, SyncSender};
 
 use async_std::{
@@ -12,12 +11,16 @@ use async_std::{
     // Future或输入输出流
 };
 use log::*;
-use once_cell::sync::OnceCell;
 
 use crate::ymsg::cnt::display_cnt_count;
+use once_cell::sync::OnceCell;
+use std::borrow::Borrow;
 
 #[allow(dead_code)]
 pub type DispatchCallback = fn();
+
+static GLB_TX: OnceCell<SyncSender<String>> = OnceCell::new();
+
 
 #[allow(dead_code)]
 pub fn prepare_rtx() -> Option<()> {
@@ -25,7 +28,7 @@ pub fn prepare_rtx() -> Option<()> {
     let (tx, rx) = sync_channel::<String>(high);
 
     info!(" init glb_tx ....");
-    glb_tx(Some(tx));
+    set_tx(tx.clone());
 
     async fn fn_loop(rx: Receiver<String>) {
         for each in rx.iter() {
@@ -44,23 +47,46 @@ pub fn prepare_rtx() -> Option<()> {
 
 #[allow(dead_code)]
 pub fn send_str(s: String) -> Option<()> {
-    debug!("....send_str.....");
+    debug!("..enter..send_str.....");
+    match GLB_TX.get() {
+        Some(v) => {
+            let _r = v.borrow().clone().send(s);
+            debug!("send_str ...  ok finally....");
+        }
+        _ => {
+            debug!("send_str ...  no data to access");
+        }
+    }
 
-    let none: Option<SyncSender<String>> = None;
-    let a = Arc::clone(glb_tx(none));
-    let tx = a.lock().unwrap();
-
-    //
-    let _r = tx.send(s);
     Some(())
 }
 
-#[allow(dead_code)]
-fn glb_tx(tx: Option<SyncSender<String>>) -> &'static Arc<Mutex<SyncSender<String>>> {
-    static INSTANCE: OnceCell<Arc<Mutex<SyncSender<String>>>> = OnceCell::new();
-    INSTANCE.get_or_init(|| {
-        Arc::new(Mutex::new(
-            tx.unwrap().clone()
-        ))
-    })
+
+pub fn set_tx(sender: SyncSender<String>) {
+    debug!("....set-tx enter.....");
+
+    let r = GLB_TX.set(sender.clone()).unwrap();
+    debug!("...after set..tx result-unwrap: {:#?}", r);
+    debug!("...after set..tx dump: {:#?}", sender);
+    debug!(".....glb_tx dump: {:#?}", GLB_TX.get());
 }
+
+
+#[allow(unused_imports)]
+#[allow(dead_code)]
+pub fn display_tx() {
+    let src = GLB_TX.get();
+    if src.is_none() {
+        debug!("display ...  not data to display  dump: {:#?}", GLB_TX.get());
+        return;
+    }
+
+    // let a = Arc::clone(GLB_TX.get().unwrap());
+    let a = GLB_TX.get().unwrap();
+    let tx = a.clone();
+
+    //
+    debug!(".....tx dump: {:#?}", tx);
+}
+
+

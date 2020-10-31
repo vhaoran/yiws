@@ -25,6 +25,8 @@ impl ws::Handler for ClientHandler {
                 let s = format!("pong({})", self.uid);
                 debug!("ping of {}", self.uid);
                 let _r = self.ws.send(s);
+                ymsg::display_cnt_count();
+                // ymsg::display_tx();
                 ymsg::assert_push_cnt(self.uid.clone(), Some(self.ws.clone()));
             }
             _ => {}

@@ -3,8 +3,8 @@ extern crate ws;
 extern crate log;
 
 
-use yi_ws::router_util::router::{Router, NotFound};
-use yi_ws::ycfg;
+use yi_ws::{ycfg};
+use yi_ws::yrouter::*;
 
 //extern crate log;
 use log::*;

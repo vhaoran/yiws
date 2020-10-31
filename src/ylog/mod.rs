@@ -1,5 +1,6 @@
 extern crate log;
 extern crate simplelog;
+extern crate time;
 
 use log::*;
 use simplelog::*;
@@ -48,7 +49,11 @@ fn wd() -> Option<String> {
 }
 
 fn time_file_name() -> String {
-    let now = std::time::Instant::now();
-    let i = now.elapsed().as_millis();
-    format!("sys_{}.log", i)
+    let t = time::OffsetDateTime::now_local();
+    format!("sys_{}_{}_{}_{}_{}_{}.log", t.year(), t.month(), t.day(), t.hour(), t.hour(), t.second())
+}
+
+#[test]
+fn time_name() {
+    println!("{}", time_file_name());
 }

@@ -23,16 +23,27 @@ pub fn init_log() {
     let s = path.to_str().unwrap().to_string();
     info!("----ylog---log file:-{}----", s);
 
-    CombinedLogger
-    ::init(vec![
-        TermLogger::new(LevelFilter::Debug,
-                        Config::default(),
-                        TerminalMode::Mixed),
-        WriteLogger::new(LevelFilter::Debug,
-                         Config::default(),
-                         File::create(s).unwrap()),
-    ])
-        .unwrap();
+    if path.exists() {
+        CombinedLogger::init(vec![
+            TermLogger::new(LevelFilter::Debug,
+                            Config::default(),
+                            TerminalMode::Mixed),
+            WriteLogger::new(LevelFilter::Debug,
+                             Config::default(),
+                             File::open(s).unwrap()),
+        ])
+            .unwrap();
+    } else {
+        CombinedLogger::init(vec![
+            TermLogger::new(LevelFilter::Debug,
+                            Config::default(),
+                            TerminalMode::Mixed),
+            WriteLogger::new(LevelFilter::Debug,
+                             Config::default(),
+                             File::create(s).unwrap()),
+        ])
+            .unwrap();
+    }
 
 
     info!("debug level,only for test! ");

@@ -8,7 +8,6 @@ use std::fs::File;
 use std::env;
 use std::path::{PathBuf};
 
-
 pub fn init_log() {
     let path: PathBuf = env::current_dir().unwrap()
         .join("logs");
@@ -17,33 +16,22 @@ pub fn init_log() {
     }
 
 
-    let path = path.join(PathBuf::from("sys.log"));
+    let path = path.join(PathBuf::from(time_file_name()));
     // path.set_file_name("sys.log");
 
     let s = path.to_str().unwrap().to_string();
     info!("----ylog---log file:-{}----", s);
 
-    if path.exists() {
-        CombinedLogger::init(vec![
-            TermLogger::new(LevelFilter::Debug,
-                            Config::default(),
-                            TerminalMode::Mixed),
-            WriteLogger::new(LevelFilter::Debug,
-                             Config::default(),
-                             File::open(s).unwrap()),
-        ])
-            .unwrap();
-    } else {
-        CombinedLogger::init(vec![
-            TermLogger::new(LevelFilter::Debug,
-                            Config::default(),
-                            TerminalMode::Mixed),
-            WriteLogger::new(LevelFilter::Debug,
-                             Config::default(),
-                             File::create(s).unwrap()),
-        ])
-            .unwrap();
-    }
+
+    CombinedLogger::init(vec![
+        TermLogger::new(LevelFilter::Debug,
+                        Config::default(),
+                        TerminalMode::Mixed),
+        WriteLogger::new(LevelFilter::Debug,
+                         Config::default(),
+                         File::create(s).unwrap()),
+    ])
+        .unwrap();
 
 
     info!("debug level,only for test! ");
@@ -59,3 +47,8 @@ fn wd() -> Option<String> {
     Some(path.to_str().unwrap().to_string())
 }
 
+fn time_file_name() -> String {
+    let now = std::time::Instant::now();
+    let i = now.elapsed().as_millis();
+    format!("sys_{}.log", i)
+}

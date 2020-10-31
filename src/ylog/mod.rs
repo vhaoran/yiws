@@ -36,7 +36,7 @@ pub fn init_log() {
 
 
     info!("debug level,only for test! ");
-    error!("err logger,only for test! ");
+    error!("err logger,only_only for test! ");
 }
 
 #[allow(dead_code)]

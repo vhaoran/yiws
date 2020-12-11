@@ -50,8 +50,12 @@ fn wd() -> Option<String> {
 
 fn time_file_name() -> String {
     let t = time::OffsetDateTime::now_local();
-    t.format()
     format!("sys_{}_{}_{}_{}_{}_{}.log", t.year(), t.month(), t.day(), t.hour(), t.hour(), t.second())
+}
+
+#[test]
+fn t_fn() {
+    println!(" ----{0}----", time_file_name())
 }
 
 #[test]

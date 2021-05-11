@@ -15,6 +15,7 @@ use std::sync::{Arc, Mutex};
 use once_cell::sync::OnceCell;
 use std::borrow::Borrow;
 
+
 //
 #[allow(unused_imports)]
 #[allow(dead_code)]
@@ -61,6 +62,22 @@ pub fn assert_push_cnt(key: u64, sender: Option<Sender>) {
 
 #[allow(dead_code)]
 pub fn get_cnt(key: u64) -> Option<Sender> {
+    let a = Arc::clone(glb_cnt());
+    let m = a.lock().unwrap();
+
+     m.get(&key).map(|x|->Option<Sender>{
+             if let Some(v) = x{
+                 return Some(v.borrow().clone());
+             }
+             None
+         }
+     )?
+
+    // Some(v1.borrow().clone())
+}
+
+#[allow(dead_code)]
+pub fn get_cnt_bak(key: u64) -> Option<Sender> {
     let a = Arc::clone(glb_cnt());
     let m = a.lock().unwrap();
     let r = m.get(&key);

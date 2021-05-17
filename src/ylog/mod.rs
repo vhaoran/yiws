@@ -1,13 +1,11 @@
-extern crate log;
-extern crate simplelog;
-extern crate time;
+extern crate log;extern crate simplelog;extern crate time;
+
+use std::env;
+use std::fs::File;
+use std::path::PathBuf;
 
 use log::*;
 use simplelog::*;
-
-use std::fs::File;
-use std::env;
-use std::path::{PathBuf};
 
 pub fn init_log() {
     let path: PathBuf = env::current_dir().unwrap()

@@ -1,0 +1,30 @@
+log:
+  level: debug
+  # 日志路径
+  # logPath: "./"
+  # 文件名，不含路径
+  file_name: log.log
+  path: "./"
+  size: 10
+  roll_count: 3
+bak_redis:
+  host: w99
+  port: 6379
+  db: 0
+  user_name: ""
+  password: ""
+mongo:
+  url: "mongodb://root:password@w5:27017"
+  max_idle_time: 1800
+  max_pool_size: 10
+  min_pool_size: 5
+bak_es:
+  url: "http://elastic:rootroot@w99:9200"
+bak_mq:
+  url: "amqp://root:password@w99:5672/%2f"
+  poolMax: 100
+  poolMin: 10
+bak_nats:
+  host: "w5:4222"
+  username: "root"
+  pwd: "password"

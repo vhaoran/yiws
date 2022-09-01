@@ -1,0 +1,54 @@
+[package]
+name = "verify-code"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = {version = "^1" ,features=["full" ,"test-util"]}
+serde = "~1.0.136"
+serde_json = "~1.0.79"
+serde_derive = "~1.0.136"
+serde_yaml = "^0.8"
+json = "^0.12"
+
+
+log = "^0.4"
+env_logger = "^0.8"
+simple-log = "^1"
+fast_log="^1.5.1"
+
+url = "^2"
+# datetime
+chrono = "^0.4.19"
+once_cell = "^1.7.2"
+
+uuid = { version = "^0.8", features = ["v4","serde"] }
+deadpool = {version = "0.7" , features = ["managed"]}
+async-trait = "0.1.50"
+
+#Version 2.0.0-beta
+#mongodb = "2.0.0-beta"
+mongodb = "2.0.0"
+#redis = "0.20"
+#redis_rs = "0.9"
+redisclient = "^0.1"
+elasticsearch = "7.12.0-alpha.1"
+futures = "^0.3"
+futures-lite = "^1.12"
+#rabbit mq /lapin
+#tokio-amqp = "1.0.0"
+lapin = "^2.1.1"
+
+reqwest = {version ="^0.11.10" ,features = ["default" ,"gzip" , "cookies" ,"json"] }
+rand = "0.8.4"
+regex = "^1.5.6"
+#
+blake2 = "^0.10.4"
+#digest = "^0.10.3"
+# axum
+axum = "0.5.15"
+
+# other project
+r-base = {path="../../r-base",features=["default"]}

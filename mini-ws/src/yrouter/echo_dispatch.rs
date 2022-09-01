@@ -1,6 +1,6 @@
 extern crate env_logger;
-extern crate ws;
 extern crate log;
+extern crate ws;
 
 use crate::ymsg;
 
@@ -23,9 +23,12 @@ impl ws::Handler for EchoDispatch {
         debug!("Data handler received a message: {}", msg);
         match msg.as_text() {
             Ok("ping") => {
+                debug!("enter Echo on Message: {}", msg);
                 let _r = self.ws.send("pong".to_string());
             }
-            _ => { ymsg::do_dispatch(msg.to_string()); }
+            _ => {
+                ymsg::do_dispatch(msg.to_string());
+            }
         }
         Ok(())
     }

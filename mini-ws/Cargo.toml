@@ -1,11 +1,10 @@
 [package]
-name = "yi-ws"
+name = "lite-ws"
 version = "0.1.0"
 authors = ["whr"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 # ws = { path = "../ws" }
 ws = { git = "https://github.com/housleyjk/ws-rs.git" }

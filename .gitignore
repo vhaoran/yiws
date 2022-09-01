@@ -6,6 +6,23 @@ target/
 *.iml
 logs/
 *.log
-*.txt
 *.out
-
+log
+*.gz
+*.db
+log
+data/
+level.db/
+sled.db/
+#------ flutter--------
+pubspec.lock
+ios/
+android/
+build/
+windows/
+.gradle
+.dart_tool
+.packages
+.lock
+.metadata
+/web

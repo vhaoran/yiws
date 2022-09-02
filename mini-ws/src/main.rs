@@ -7,8 +7,8 @@ use log::*;
 
 mod ymsg;
 
-use lite_ws::yrouter::{NotFound, Router};
-use lite_ws::{verify_code, ycfg, ylog};
+use mini_ws::yrouter::{NotFound, Router};
+use mini_ws::{verify_code, ycfg, ylog};
 use ws::{Builder, Settings};
 /*
 ##  for listen to received:
@@ -22,7 +22,7 @@ use ws::{Builder, Settings};
 
 fn main() {
     let r = verify_code::verify_code();
-    if r.is_err() {
+    if r.is_none() {
         return;
     }
 

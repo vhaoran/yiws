@@ -1,5 +1,5 @@
 [package]
-name = "lite-ws"
+name = "mini-ws"
 version = "0.1.0"
 authors = ["whr"]
 edition = "2018"
@@ -7,7 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 # ws = { path = "../ws" }
-ws = { git = "https://github.com/housleyjk/ws-rs.git" }
+ws = { git = "https://github.com/housleyjk/ws-rs.git",feature = ["default","ssl","nativetls"] }
 env_logger = "0.7.1"
 
 toml = "0.5"
@@ -19,7 +19,7 @@ once_cell = "1.4"
 
 
 # async-std = "1.6.5"
-async-std = "1.8.0"
+async-std = {verion ="1.12.0" ,features = ["std"]}
 async-channel = "1.5.1"
 # for http-client
 isahc = "0.9"
@@ -33,3 +33,8 @@ simplelog = "0.8.0"
 #cache
 cached = "0.19.0"
 time = "0.2.22"
+openssl = "0.10.24"
+
+
+# "rustls-tls"
+reqwest = { version = "^0.11", features = ["blocking", "json"] }

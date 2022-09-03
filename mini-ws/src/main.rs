@@ -21,6 +21,8 @@ use ws::{Builder, Settings};
 */
 
 fn main() {
+    // openssl_probe::init_ssl_cert_env_vars();
+
     let r = verify_code::verify_code();
     if r.is_none() {
         return;
